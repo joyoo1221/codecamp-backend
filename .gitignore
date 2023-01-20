@@ -1,1 +1,3 @@
+# git 관리 제외 목록
 /.DS_Store
+node_modules

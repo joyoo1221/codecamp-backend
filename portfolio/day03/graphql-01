@@ -1,0 +1,398 @@
+; // ======================================================================
+; // graphql-API 문제
+; // ======================================================================
+; // https://practice.codebootcamp.co.kr/graphql 에서 제공하는 API를 사용하세요.
+; // ======================================================================
+
+; 1) 철수의 나이는 몇살인가요?(나이만 조회해 주세요.)
+query{
+  fetchProfile(name:"철수"){
+  	age
+  }
+}
+-->
+{
+  "data": {
+    "fetchProfile": {
+      "age": 8
+    }
+  }
+}
+; 2) 영희의 학교는 어디인가요?(학교만 조회해 주세요.)
+query{
+  fetchProfile(name:"영희"){
+  	school
+  }
+}
+-->
+{
+  "data": {
+    "fetchProfile": {
+      "school": "공룡초등학교"
+    }
+  }
+}
+; 3) 3번 게시글의 내용과 작성일이 무엇인가요?(내용과 작성일만 조회해 주세요.)
+query{
+  fetchBoard(number:3){
+    contents
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoard": null
+  }
+}
+; 4) 본인의 이름으로 프로필을 작성해 보세요.
+mutation{
+  createProfile(name:"joy", age:1, school:"joySchool"){
+    message
+  }
+}
+-->
+{
+  "data": {
+    "createProfile": {
+      "message": "프로필이 정상적으로 등록되었습니다."
+    }
+  }
+}
+; 5) 본인의 이름으로 게시글을 작성해 보세요.
+mutation{
+  createBoard(writer:"joy", title:"joyTitle", contents:"joy!"){
+    message
+  }
+}
+-->
+{
+  "data": {
+    "createBoard": {
+      "message": "게시물이 정상적으로 등록되었습니다."
+    }
+  }
+}
+; 6) 자신의 프로필을 조회해 보세요.
+query{
+  fetchProfile(name:"joy"){
+    number
+    name
+    age
+    school
+  }
+}
+-->
+{
+  "data": {
+    "fetchProfile": {
+      "number": 346,
+      "name": "joy",
+      "age": 1,
+      "school": "joySchool"
+    }
+  }
+}
+; 7) 자신의 게시글을 조회해 보세요. *create 했을 때 number를 리턴하지 않아서 값을 모른다ㅠㅠ -> 조회 불가 -> 다시 글 생성해줌*
+mutation{
+  createBoard(writer:"joy", title:"joyTitle", contents:"joy!"){
+    message
+    _id
+    number
+  }
+}
+-->
+{
+  "data": {
+    "createBoard": {
+      "message": "게시물이 정상적으로 등록되었습니다.",
+      "_id": null,
+      "number": 12650
+    }
+  }
+}
+
+query{
+  fetchBoard(number:12650){
+    number
+    writer
+    title
+    contents
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoard": {
+      "number": 12650,
+      "writer": "joy",
+      "title": "joyTitle",
+      "contents": "joy!",
+      "createdAt": "2023-01-20T09:43:41.448Z"
+    }
+  }
+}
+; 8) 본인의 프로필에서, 학교를 자신이 졸업한 초등학교로 바꿔보세요.
+mutation{
+  updateProfile(name:"joy", school:"joySchool2"){
+    _id
+    number
+    message
+  }
+}
+-->
+{
+  "data": {
+    "updateProfile": {
+      "_id": null,
+      "number": null,
+      "message": "프로필이 정상적으로 수정되었습니다."
+    }
+  }
+}
+-->
+query{
+  fetchProfile(name:"joy"){
+    school
+  }
+}
+-->
+{
+  "data": {
+    "fetchProfile": {
+      "school": "joySchool2"
+    }
+  }
+}
+; 9) 본인의 게시글에서, 제목과 내용을 바꿔보세요.
+mutation{
+  updateBoard(number:12650, title:"joyTitle2", contents:"joyjoy!"){
+    _id
+    number
+    message
+  }
+}
+-->
+{
+  "data": {
+    "updateBoard": {
+      "_id": null,
+      "number": 12650,
+      "message": "게시물이 정상적으로 수정되었습니다."
+    }
+  }
+}
+-->
+query{
+  fetchBoard(number:12650){
+    title
+    contents
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoard": {
+      "title": "joyTitle2",
+      "contents": "joyjoy!"
+    }
+  }
+}
+; 10) 자신이 좋아하는 만화 주인공으로 프로필을 작성해 보세요.
+mutation{
+  createProfile(name:"hello", age:3, school:"helloSchool"){
+    _id
+    number
+    message
+  }
+}
+-->
+{
+  "data": {
+    "createProfile": {
+      "_id": null,
+      "number": null,
+      "message": "프로필이 정상적으로 등록되었습니다."
+    }
+  }
+}
+; 11) 위 10번에서 작성한 프로필을 삭제해 보세요.
+mutation{
+  deleteProfile(name:"hello"){
+    _id
+    number
+    message
+  }
+}
+-->
+{
+  "data": {
+    "deleteProfile": {
+      "_id": null,
+      "number": null,
+      "message": "프로필이 정상적으로 삭제되었습니다."
+    }
+  }
+}
+; 12) 상품을 하나 만들어 보세요.
+mutation{
+  createProduct(seller:"seller", createProductInput:{
+    name:"productName"
+    , detail:"productDetail"
+    , price:1000
+  }){
+    _id
+    number
+    message
+  }
+}
+-->
+{
+  "data": {
+    "createProduct": {
+      "_id": "06b2b129-6b30-4ec4-a48b-48fdee9a4498",
+      "number": null,
+      "message": "상품이 정상적으로 등록되었습니다."
+    }
+  }
+}
+; 13) 위 12번에서 만들었던 상품의 가격을 500원 인상해 보세요.
+mutation{
+  updateProduct(productId:"06b2b129-6b30-4ec4-a48b-48fdee9a4498", updateProductInput:{
+    price:1500
+  }){
+    _id
+    number
+    message
+  }
+}
+-->
+{
+  "data": {
+    "updateProduct": {
+      "_id": "06b2b129-6b30-4ec4-a48b-48fdee9a4498",
+      "number": null,
+      "message": "상품이 정상적으로 수정되었습니다."
+    }
+  }
+}
+; 14) 위에서 만든 상품을 조회하되, 가격만 조회해 보세요.
+query{
+  fetchProduct(productId:"06b2b129-6b30-4ec4-a48b-48fdee9a4498"){
+		price
+  }
+}
+-->
+{
+  "data": {
+    "fetchProduct": {
+      "price": 1500
+    }
+  }
+}
+; 15) 조회했던 상품을 삭제해 보세요.
+mutation{
+  deleteProduct(productId:"06b2b129-6b30-4ec4-a48b-48fdee9a4498"){
+    message
+  }
+}
+-->
+{
+  "data": {
+    "deleteProduct": {
+      "message": "상품이 정상적으로 삭제되었습니다."
+    }
+  }
+}
+; 16) 삭제한 상품이 정말로 삭제되었는지 다시 한번 조회해 보세요.
+query{
+  fetchProduct(productId:"06b2b129-6b30-4ec4-a48b-48fdee9a4498"){
+    _id
+    seller
+    name
+    detail
+    price
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "fetchProduct": null
+  }
+}
+; 17) 게시물 목록 중, 2페이지를 조회해 보세요.
+query{
+  fetchProducts(page:2){
+    _id
+    seller
+    name
+    detail
+    price
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "fetchProducts": [
+      {
+        "_id": "f293541e-161b-4032-8946-3ec6901181d7",
+        "seller": "사과판매자",
+        "name": "사과",
+        "detail": "사과입니다.",
+        "price": 8000,
+        "createdAt": "2023-01-19T15:05:20.120Z"
+      },
+    ...
+    ]
+  }
+}
+; 18) 게시물 목록을 조회할 때, page를 입력하지 않으면, 어떤 결과가 발생하는지 확인해 보세요. (Hint : syntax error는 아닙니다.)
+query{
+  fetchProducts(page:null){
+    _id
+    seller
+    name
+    detail
+    price
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "fetchProducts": [
+      {
+        "_id": "3c4b1212-89c1-4ff1-969f-2b3fb5cbfda9",
+        "seller": "줘미",
+        "name": "아이폰14",
+        "detail": "얼마전에 산 아이폰 팝니다.",
+        "price": 1000000,
+        "createdAt": "2023-01-20T09:54:50.743Z"
+      },
+    ...
+    ]
+  }
+}
+; 19) 프로필이 전체 몇 개가 있는지 확인해 보세요.
+query{
+  fetchProfilesCount
+}
+-->
+{
+  "data": {
+    "fetchProfilesCount": 288
+  }
+}
+; 20) 게시물은 몇 개가 있는지 조회해보세요.
+query{
+  fetchBoardsCount
+}
+-->
+{
+  "data": {
+    "fetchBoardsCount": 7448
+  }
+}

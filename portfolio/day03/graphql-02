@@ -1,0 +1,341 @@
+; // =====================================================================
+; // graphql-API 문제
+; // =====================================================================
+; // http://backendclass.codebootcamp.co.kr/graphql 에서 제공하는 API를 사용하세요.
+; // =====================================================================
+
+; 1) createBoard를 활용해, 게시물을 하나 등록해 주세요.
+mutation{
+  createBoard(createBoardInput:{
+    writer:"joy"
+    , password:"1234"
+    , title:"joyTitle"
+    , contents:"joyContents"
+    , youtubeUrl:"joyUrl"
+  }){
+    _id
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "createBoard": {
+      "_id": "63ca68517d035600293d9a6e",
+      "createdAt": "2023-01-20T10:09:21.421Z"
+    }
+  }
+}
+; 2) 등록한 게시글의 제목과 내용은 무엇인가요?
+query{
+  fetchBoard(boardId:"63ca68517d035600293d9a6e"){
+    title
+    contents
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoard": {
+      "title": "joyTitle",
+      "contents": "joyContents"
+    }
+  }
+}
+; 3) 등록한 게시글에 좋아요를 1 올려주세요.
+mutation{
+	likeBoard(boardId:"63ca68517d035600293d9a6e")
+}
+-->
+{
+  "data": {
+    "likeBoard": 1
+  }
+}
+; 4) 등록한 게시글에 싫어요도 1 올려주세요.
+mutation{
+	dislikeBoard(boardId:"63ca68517d035600293d9a6e")
+}
+-->
+{
+  "data": {
+    "dislikeBoard": 1
+  }
+}
+; 5) 등록한 게시글의 좋아요와 싫어요는 각각 몇 개 인가요? (fetchBoard를 활용해서 확인해 보세요.)
+query{
+  fetchBoard(boardId:"63ca68517d035600293d9a6e"){
+    likeCount
+    dislikeCount
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoard": {
+      "likeCount": 1,
+      "dislikeCount": 1
+    }
+  }
+}
+; 6) 현재 등록된 게시글의 총 갯수는 몇 개 인가요?  (어떤 API를 활용하면 좋을지 찾아보세요!)
+query{
+  fetchBoardsCount
+}
+-->
+{
+  "data": {
+    "fetchBoardsCount": 223
+  }
+}
+; 7) 등록한 게시글의 제목을 수정해 보세요!
+mutation{
+  updateBoard(boardId:"63ca68517d035600293d9a6e", password:"1234", updateBoardInput:{
+    title:"editTitle"
+  }){
+    _id
+    title
+    updatedAt
+  }
+}
+-->
+{
+  "data": {
+    "updateBoard": {
+      "_id": "63ca68517d035600293d9a6e",
+      "title": "editTitle",
+      "updatedAt": "2023-01-20T10:09:21.421Z"
+    }
+  }
+}
+; 8) fetchBoards 전체 게시물 조회를 활용하여 방금 쓴 게시물을 검색해 보세요. (search 변수를 활용해요!)
+query{
+  fetchBoards(search:"editTitle"){
+    _id
+    title
+    contents
+    likeCount
+    dislikeCount
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoards": [
+      {
+        "_id": "63ca68517d035600293d9a6e",
+        "title": "editTitle",
+        "contents": "joyContents",
+        "likeCount": 1,
+        "dislikeCount": 1
+      }
+    ]
+  }
+}
+; 9) 등록한 게시글에 댓글을 3개 추가해 보세요.
+; 댓글 1
+mutation{
+  createBoardComment(boardId:"63ca68517d035600293d9a6e", createBoardCommentInput:{
+    writer:"w1"
+    , password:"1111"
+    , contents:"w1"
+    , rating:4.2
+  }){
+    _id
+  }
+}
+-->
+{
+  "data": {
+    "createBoardComment": {
+      "_id": "63ca739a7d035600293d9a72"
+    }
+  }
+}
+; 댓글 2
+mutation{
+  createBoardComment(boardId:"63ca68517d035600293d9a6e", createBoardCommentInput:{
+    writer:"w2"
+    , password:"2222"
+    , contents:"w2"
+    , rating:3
+  }){
+    _id
+  }
+}
+-->
+{
+  "data": {
+    "createBoardComment": {
+      "_id": "63ca73657d035600293d9a71"
+    }
+  }
+}
+; 댓글 3
+mutation{
+  createBoardComment(boardId:"63ca68517d035600293d9a6e", createBoardCommentInput:{
+    writer:"w3"
+    , password:"3333"
+    , contents:"w3"
+    , rating:4
+  }){
+    _id
+  }
+}
+-->
+{
+  "data": {
+    "createBoardComment": {
+      "_id": "63ca73b77d035600293d9a73"
+    }
+  }
+}
+; 10) 첫번째 댓글의 내용을 수정해 보세요!
+mutation{
+  updateBoardComment(boardCommentId:"63ca739a7d035600293d9a72", password:"1111", updateBoardCommentInput:{
+    contents:"w1w1"
+  }){
+    _id
+    contents
+    updatedAt
+  }
+}
+-->
+{
+  "data": {
+    "updateBoardComment": {
+      "_id": "63ca739a7d035600293d9a72",
+      "contents": "w1w1",
+      "updatedAt": "2023-01-20T10:57:30.391Z"
+    }
+  }
+}
+; 11) 두번째 댓글을 삭제해 보세요!
+mutation{
+  deleteBoardComment(boardCommentId:"63ca73657d035600293d9a71", password:"2222")
+}
+-->
+{
+  "data": {
+    "deleteBoardComment": "63ca73657d035600293d9a71"
+  }
+}
+; 12) 등록한 게시글에 달려있는 모든 댓글을 조회해 보세요. (작성자와 내용만 조회합니다.)
+query{
+  fetchBoardComments(boardId:"63ca68517d035600293d9a6e"){
+    _id
+    writer
+    contents
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoardComments": [
+      {
+        "_id": "63ca73b77d035600293d9a73",
+        "writer": "w3",
+        "contents": "w3"
+      },
+      {
+        "_id": "63ca739a7d035600293d9a72",
+        "writer": "w1",
+        "contents": "w1w1"
+      },
+      {
+        "_id": "63ca734e7d035600293d9a70",
+        "writer": "w1",
+        "contents": "w1"
+      },
+      {
+        "_id": "63ca73437d035600293d9a6f",
+        "writer": "w1",
+        "contents": "w1"
+      }
+    ]
+  }
+}
+; 13) BEST 게시글을 조회해 보세요! (API 이름을 잘 찾아보세요!)
+query{
+  fetchBoardsOfTheBest{
+    _id
+    writer
+    title
+    contents
+    likeCount
+  }
+}
+-->
+{
+  "data": {
+    "fetchBoardsOfTheBest": [
+      {
+        "_id": "63628b107d035600293d9924",
+        "writer": "안녕",
+        "title": "여기서만이라도 1등 하고 갑니다..",
+        "contents": "백엔드 10기 파이팅!",
+        "likeCount": 50
+      },
+      {
+        "_id": "62c561237d035600293d97ac",
+        "writer": "포스트맨",
+        "title": "제목",
+        "contents": "내용",
+        "likeCount": 38
+      },
+      {
+        "_id": "6231b55c7d035600293d9636",
+        "writer": "백2기",
+        "title": "이렇게 많이 누를 생각 없었는데",
+        "contents": "안돼",
+        "likeCount": 34
+      },
+      {
+        "_id": "6231bb5d7d035600293d9652",
+        "writer": "신홍석",
+        "title": "몰라",
+        "contents": "신홍석의 작품 내용",
+        "likeCount": 20
+      }
+    ]
+  }
+}
+; 14) 회원가입을 해보세요! 사용자, 즉 User를 만드는 API입니다!
+; 회원 정보 생성
+mutation{
+  createUser(createUserInput:{
+    email:"joy@naver.com"
+    , password:"1234"
+    , name:"joy"
+  }){
+    _id
+    email
+    name
+    createdAt
+  }
+}
+-->
+{
+  "data": {
+    "createUser": {
+      "_id": "63ca76437d035600293d9a74",
+      "email": "joy@naver.com",
+      "name": "joy",
+      "createdAt": "2023-01-20T11:08:51.002Z"
+    }
+  }
+}
+; 로그인
+mutation{
+  loginUser(password:"1234", email:"joy@naver.com"){
+    accessToken
+  }
+}
+-->
+{
+  "data": {
+    "loginUser": {
+      "accessToken": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2NhNzY0MzdkMDM1NjAwMjkzZDlhNzQiLCJwZXJtaXNzaW9uIjowLCJpYXQiOjE2NzQyMTI5OTYsImV4cCI6MTY3NDIxNjU5Niwic3ViIjoiYWNjZXNzVG9rZW4ifQ.Zm0DAQQPxFeuyRVPZD3oHwlIFytpTuQb-WJeNglNywYvtH1tILN9maqY1oZ2-9aDjmEmV90j1gR6j67J3II88w"
+    }
+  }
+}
